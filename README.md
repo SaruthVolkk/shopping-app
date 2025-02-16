@@ -15,7 +15,7 @@ Before running the app, make sure you have the [Flutter SDK](https://docs.flutte
 ### Installation
 
 1. Clone the repository:  
-   git clone https://github.com/your-username/shopping-app.git
+   git clone https://github.com/SaruthVolkk/shopping-app.git
 2. Move into the project directory:  
    cd shopping-app
 3. Run the app:  
