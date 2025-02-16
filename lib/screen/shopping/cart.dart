@@ -49,6 +49,17 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
+  num calculatePairDiscount() {
+    num pairDiscount = 0;
+    for (final item in cartList) {
+      final pairs = item.quantity! ~/ 2;
+      if (pairs > 0) {
+        pairDiscount += item.product!.price! * 2 * 0.05 * pairs;
+      }
+    }
+    return pairDiscount;
+  }
+
   Widget renderSuccessCheckout() {
     return Scaffold(
       appBar: AppBar(title: const Text('Cart')),
@@ -79,7 +90,7 @@ class _CartPageState extends State<CartPage> {
       0,
       (previousValue, element) => previousValue + (element.product!.price! * element.quantity!).toInt(),
     );
-    const discount = 500;
+    final discount = calculatePairDiscount();
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -93,14 +104,16 @@ class _CartPageState extends State<CartPage> {
                 style: FigmaTextStyles.m3Medium.copyWith(color: FigmaColors.primaryPurpleText)),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Promotion Discount', style: FigmaTextStyles.m3Medium.copyWith(color: FigmaColors.primaryPurpleText)),
-            Text('-${numberFormat.format(discount)}',
-                style: FigmaTextStyles.m3Medium.copyWith(color: FigmaColors.errorRed)),
-          ],
-        ),
+        if (discount > 0)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Promotion Discount',
+                  style: FigmaTextStyles.m3Medium.copyWith(color: FigmaColors.primaryPurpleText)),
+              Text('-${numberFormat.format(discount)}',
+                  style: FigmaTextStyles.m3Medium.copyWith(color: FigmaColors.errorRed)),
+            ],
+          ),
         const SizedBox(height: 24),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
